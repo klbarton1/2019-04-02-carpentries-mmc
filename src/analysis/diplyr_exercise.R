@@ -1,4 +1,5 @@
-#
+#Make a plot of life expectancy in Africa
+#Read in the data
 gapminder<- readr::read_csv(here("data/gapminder/raw/gapminder_data.csv"))
 
 mean(gapminder$gdpPercap[gapminder$continent =="Africa"])

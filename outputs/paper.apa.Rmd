@@ -1,0 +1,49 @@
+---
+title: "The Effects of Life Expectancy on Population over Time"
+author: "Kerri Barton"
+date: "4/2/2019"
+output: html_document
+bibliography: "library.bib"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(here)
+library(tidyverse)
+library(pander)
+library(stargazer)
+library(beepr)
+
+#Read in the data
+d <- readr::read_csv(here("data/gapminder/raw/gapminder_data.csv"))
+```
+
+##Introduction
+
+The analysis of life expectancy by Hans Rosling showed that things are getting better [@Rosling2011].
+
+##Data
+
+The data consist of `r length(unique(d$country))` unique countries tracked from `r range(d$year)[1]` to `r range(d$year)[2]`. Table 1 presents a summary of the variables.
+
+```{r}
+d2 <- d %>%
+  group_by(country) %>%
+  summarize(pop = mean(pop),
+      lifeExp = mean(lifeExp))
+pander(d2)
+
+```
+
+## Results
+
+```{r}
+m <- lm(lifeExp ~ continent + year + pop, data= d)
+```
+
+```{r, results= "asis"}
+stargazer(m, type= "html")
+
+```
+
+## References
